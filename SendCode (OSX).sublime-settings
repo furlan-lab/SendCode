@@ -31,6 +31,12 @@
 
     // path related settings
 
+    // path to cmux
+    // "cmux": "cmux",
+
+    // target a specific cmux surface (pane) by ID
+    // "cmux_surface": null,
+
     // path to tmux
     // "tmux": "tmux",
 

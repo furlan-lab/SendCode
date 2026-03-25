@@ -11,6 +11,8 @@ from .conemu import send_to_conemu, send_to_cmder
 from .linux import send_to_linux_terminal
 from .tmux import send_to_tmux
 from .screen import send_to_screen
+from .cmux import send_to_cmux
+from .ghostty import send_to_ghostty
 from .chrome import send_to_chrome_jupyter, send_to_chrome_rstudio
 from .safari import send_to_safari_jupyter, send_to_safari_rstudio
 from .sublimerepl import send_to_sublimerepl
@@ -68,6 +70,14 @@ class CodeSender:
         screen = self.settings.get("screen", "screen")
         send_to_screen(cmd, screen, bracketed=self.bracketed_paste_mode)
 
+    def send_to_cmux(self, cmd):
+        cmux = self.settings.get("cmux", "cmux")
+        surface = self.settings.get("cmux_surface", None)
+        send_to_cmux(cmd, cmux, surface=surface, bracketed=self.bracketed_paste_mode)
+
+    def send_to_ghostty(self, cmd):
+        send_to_ghostty(cmd, bracketed=self.bracketed_paste_mode)
+
     def send_to_chrome_jupyter(self, cmd):
         send_to_chrome_jupyter(cmd)
 
@@ -104,6 +114,10 @@ class CodeSender:
             self.send_to_tmux(cmd)
         elif prog == "screen":
             self.send_to_screen(cmd)
+        elif prog == "cmux":
+            self.send_to_cmux(cmd)
+        elif prog == "ghostty":
+            self.send_to_ghostty(cmd)
         elif prog == "chrome-jupyter":
             self.send_to_chrome_jupyter(cmd)
         elif prog == "safari-jupyter":
@@ -261,6 +275,32 @@ class PythonCodeSender(CodeSender):
                 send_to_screen("--", screen)
         else:
             send_to_screen(cmd, screen)
+
+    def send_to_cmux(self, cmd):
+        cmux = self.settings.get("cmux", "cmux")
+        surface = self.settings.get("cmux_surface", None)
+        if len(re.findall("\n", cmd)) > 0:
+            if self.bracketed_paste_mode:
+                send_to_cmux(cmd, cmux, surface=surface, bracketed=True, commit=False)
+                send_to_cmux("\x1b", cmux, surface=surface, bracketed=False)
+            else:
+                send_to_cmux(r"%cpaste -q", cmux, surface=surface)
+                send_to_cmux(cmd, cmux, surface=surface)
+                send_to_cmux("\x04", cmux, surface=surface)
+        else:
+            send_to_cmux(cmd, cmux, surface=surface)
+
+    def send_to_ghostty(self, cmd):
+        if len(re.findall("\n", cmd)) > 0:
+            if self.bracketed_paste_mode:
+                send_to_ghostty(cmd, bracketed=True, commit=False)
+                send_to_ghostty("\x1b", bracketed=False)
+            else:
+                send_to_ghostty(r"%cpaste -q")
+                send_to_ghostty(cmd)
+                send_to_ghostty("--")
+        else:
+            send_to_ghostty(cmd)
 
     def send_to_terminus(self, cmd):
         if sublime.platform() == "windows" and self.paste_to_console:
