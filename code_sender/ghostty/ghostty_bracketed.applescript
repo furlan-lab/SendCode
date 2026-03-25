@@ -27,10 +27,9 @@ on run argv
                 end if
             end repeat
         end if
+        input text (ASCII character 27) & "[201~" to term
         if commit then
-            input text (ASCII character 27) & "[201~" & return to term
-        else
-            input text (ASCII character 27) & "[201~" to term
+            send key "enter" to term
         end if
     end tell
 end run

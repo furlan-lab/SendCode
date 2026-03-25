@@ -27,7 +27,7 @@ on run argv
             end repeat
         end if
         if commit then
-            input text return to term
+            send key "enter" to term
         end if
     end tell
 end run

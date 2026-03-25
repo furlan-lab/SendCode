@@ -1,5 +1,5 @@
 {
-    "prog": "terminal",
+    "prog": "cmux",
     "auto_expand_line": true,
     "auto_advance" : true,
     "auto_advance_non_empty": false,
@@ -8,24 +8,24 @@
     "block_end_pattern": "# ?%%|# ?\\+|#'|# In \\[",
 
     "r" : {
-        "prog": "terminal",
+        "prog": "cmux",
         // turn bracketed_paste_mode on if radian or readline 7.0 is in use
         "bracketed_paste_mode": false
     },
 
     "rmd" : {
-        "prog": "terminal",
+        "prog": "cmux",
         // turn bracketed_paste_mode on if radian or readline 7.0 is in use
         "bracketed_paste_mode": false
     },
 
     "python" : {
-        "prog": "terminal",
+        "prog": "cmux",
         "bracketed_paste_mode": true
     },
 
     "julia" : {
-        "prog": "terminal",
+        "prog": "cmux",
         "bracketed_paste_mode": true
     }
 

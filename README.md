@@ -197,7 +197,7 @@ If you want to use this fork (e.g. for Ghostty or cmux support), install it dire
 3. **Symlink the repo into Sublime Text's Packages directory:**
 
    ```bash
-   ln -s /path/to/SendCode ~/Library/Application\ Support/Sublime\ Text/Packages/SendCode
+   ln -s /path/to/SendCode ~/Library/Application\ Support/Sublime\ Text/Packages
    ```
 
    Replace `/path/to/SendCode` with the actual path where you cloned the repo.

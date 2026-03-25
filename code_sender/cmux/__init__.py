@@ -1,4 +1,15 @@
+import os
 import subprocess
+
+
+def _resolve_cmux(cmux):
+    if os.path.isabs(cmux):
+        return cmux
+    # Sublime Text may not have /opt/homebrew/bin in PATH
+    for p in ["/opt/homebrew/bin/cmux", "/usr/local/bin/cmux"]:
+        if os.path.isfile(p):
+            return p
+    return cmux
 
 
 def _send_to_cmux(cmd, cmux, surface=None):
@@ -13,13 +24,15 @@ def _send_to_cmux(cmd, cmux, surface=None):
 
 
 def _send_key_to_cmux(key, cmux, surface=None):
+    args = [cmux, 'send-key']
     if surface:
-        subprocess.check_call([cmux, 'send-key-surface', surface, key])
-    else:
-        subprocess.check_call([cmux, 'send-key', key])
+        args.extend(['--surface', surface])
+    args.append(key)
+    subprocess.check_call(args)
 
 
 def send_to_cmux(cmd, cmux="cmux", surface=None, bracketed=False, commit=True):
+    cmux = _resolve_cmux(cmux)
     if bracketed:
         _send_to_cmux("\x1b[200~", cmux, surface)
         _send_to_cmux(cmd, cmux, surface)
