@@ -177,5 +177,31 @@ SendCode uses the following logics to expand cursor when sending code.
   - indentations
   - `# %%` decorators.
 - (See the settings `block_start_pattern` and `block_end_pattern`)
-- Markdown fenced code blocks 
+- Markdown fenced code blocks
   - put the cursor at the line of <kbd>\`\`\`</kbd> to send the whole block.
+
+### Installing this fork from source (macOS)
+
+If you want to use this fork (e.g. for Ghostty or cmux support), install it directly from the local repository instead of Package Control.
+
+1. **Remove the existing SendCode package** (if installed via Package Control):
+
+   Open Sublime Text, press <kbd>cmd</kbd>+<kbd>shift</kbd>+<kbd>p</kbd>, type `Package Control: Remove Package`, and select `SendCode`.
+
+2. **Clone this repository:**
+
+   ```bash
+   git clone https://github.com/furlan-lab/SendCode.git
+   ```
+
+3. **Symlink the repo into Sublime Text's Packages directory:**
+
+   ```bash
+   ln -s /path/to/SendCode ~/Library/Application\ Support/Sublime\ Text/Packages/SendCode
+   ```
+
+   Replace `/path/to/SendCode` with the actual path where you cloned the repo.
+
+4. **Restart Sublime Text.**
+
+The plugin will load automatically. Any local edits to the plugin will take effect after saving and restarting Sublime Text.
